@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './Services/user.service';
-import { filter, from, map, Observable, of } from 'rxjs';
+import { filter, from, map, Observable, of, interval } from 'rxjs';
 import { DataService } from './Services/data.service';
 
 @Component({
@@ -12,20 +12,6 @@ export class AppComponent implements OnInit {
   title = 'userdetailservice';
 
   constructor(private userService: UserService, private dataServiec: DataService) {
-  }
-
-  ngOnInit(): void {
-    // this.filteredObservable.subscribe({
-    //   next(value: any) {
-    //     console.log(value);
-    //   },
-    //   error(err: any) {
-    //     alert(err);
-    //   },
-    //   complete() {
-    //     console.log('Complete');
-    //   },
-    // });
   }
 
   //*Create Observables using 
@@ -85,9 +71,46 @@ export class AppComponent implements OnInit {
   // transformedObservable = this.myObservable.pipe(map((item) => (item * 5)));
   // filteredObservable = this.transformedObservable.pipe(filter((value) => (value > 10)));
   //TODO     ---OR---
-  filteredObservable = from(this.array1).pipe(
-    map((item) => (item * 5)),
-    filter((value) => (value > 10))
-  );
+  // filteredObservable = from(this.array1).pipe(
+  //   map((item) => (item * 5)),
+  //   filter((value) => (value > 10))
+  // );
 
+  //! ----RxJs Interval() fn ----
+  counterObservable = interval(1000);
+  counterSub: any;
+
+  unsubscribe() {
+    this.counterSub.unsubscribe();
+  }
+
+  subscribe() {
+    this.counterSub = this.counterObservable.subscribe({
+      next: (val: any) => {
+        console.log(val);
+      }
+    })
+  }
+
+
+
+  ngOnInit(): void {
+    // this.filteredObservable.subscribe({
+    //   next: (value: any) => {
+    //     console.log(value);
+    //   },
+    //   error: (err: any) => {
+    //     alert(err);
+    //   },
+    //   complete: () => {
+    //     console.log('Complete');
+    //   },
+    // });
+
+    // this.counterSub = this.counterObservable.subscribe({
+    //   next: (val: any) => {
+    //     console.log(val);
+    //   }
+    // })
+  }
 }
