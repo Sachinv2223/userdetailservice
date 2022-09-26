@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
       next: (val: any) => {
         console.log(val);
       }
-    })
+    });
   }
 
 
